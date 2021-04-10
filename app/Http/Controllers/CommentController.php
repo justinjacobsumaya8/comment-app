@@ -34,7 +34,7 @@ class CommentController extends Controller
         $comment->user_id = $user->id;
         $comment->post_id = $post->id;
         $comment->content = $request->content;
-        $comment->parent_id = isset($request->parent_id) ? $request->parent_id : '';
+        $comment->parent_id = $request->parent_id;
         $comment->save();
 
         return response()->json(1);
@@ -42,7 +42,11 @@ class CommentController extends Controller
 
     public function fetchComments()
     {
-        $comments = PostComment::whereNull('parent_id')->with('user', 'replies.user')->get();
+        $comments = PostComment::whereNull('parent_id')
+                        ->with('user', 'replies.user', 'replies.replies.user')
+                        ->orderBy('created_at', 'DESC')
+                        ->get();
+
         return response()->json($comments);
     }
 

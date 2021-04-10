@@ -20,6 +20,7 @@ Vue.component('post', require('./components/Post'));
 
 Vue.component('comment', require('./components/Comment'));
 Vue.component('comment-reply', require('./components/CommentReply'));
+Vue.component('comment-reply-third', require('./components/CommentReplyThird'));
 
 Vue.component('comments', require('./components/Comments'))
 Vue.component('new-comment', require('./components/NewComment'))

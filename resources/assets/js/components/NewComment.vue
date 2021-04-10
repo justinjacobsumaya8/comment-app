@@ -1,6 +1,7 @@
 <template>
-    <div id="commentForm" class="box has-shadow has-background-white">
+    <div id="commentForm" class="box has-shadow has-background-white text-left">
         <form @keyup.enter="postComment">
+            <input type="hidden" v-model="comment.parent_id">
             <div class="field has-margin-top">
                 <div class="field has-margin-top">
                     <label class="label">Name</label>
@@ -24,14 +25,18 @@
 </template>
 
 <script>
+
+    import bus from '../bus'
+
     export default {
         name: "NewComment",
         data() {
             return {
                 submit: false,
                 comment: {
-                    content: "",
-                    name: "",
+                    content: '',
+                    name: '',
+                    parent_id: ''
                 },
             };
         },
@@ -42,7 +47,13 @@
                     .dispatch("ADD_COMMENT", this.comment)
                     .then((response) => {
                         this.submit = false;
-                        if (response.data === 1) console.log("success");
+                        if (response.data === 1)
+                        {
+                            this.comment.content = '';
+                            this.comment.name = '';
+
+                            bus.$emit('refresh', response.data);
+                        }
                     })
                     .catch((err) => {
                         this.submit = false;
@@ -60,5 +71,8 @@
 <style scoped>
     .has-margin-top {
         margin-top: 15px;
+    }
+    .text-left {
+        text-align: left;
     }
 </style>

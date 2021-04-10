@@ -10,13 +10,24 @@
             
             Comment
         </a>
+
+        <div class="mt-2">
+            <Comments></Comments>
+            <NewComment></NewComment>
+        </div>
     </div>
 </template>
 
 <script>
+    import Comments from "./Comments";
+    import NewComment from "./NewComment";
 
     export default {
         name: "Post",
+        components: {
+            Comments,
+            NewComment
+        },
         mounted() {
             this.getPost();
         },
@@ -34,7 +45,7 @@
                 }).catch(function (error) {
                     self.post = '';
                 });
-            },
+            }
         }
     };
 </script>

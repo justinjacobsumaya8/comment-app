@@ -43,11 +43,6 @@
         <div id="app">
             <div class="container">
                 <post></post>
-
-                <div class="mt-2">
-                    <comments></comments>
-                    <new-comment></new-comment>
-                </div>
             </div>
         </div>
 

@@ -10,9 +10,17 @@
     import { mapGetters } from "vuex";
     import Comment from "./Comment";
 
+    import bus from '../bus'
+
     export default {
         name: "Comments",
         components: { Comment },
+        created (){
+          bus.$on('refresh', (data) => {
+            console.log(data);
+            this.$store.dispatch("GET_COMMENTS");
+          });
+        },
         mounted() {
             this.$store.dispatch("GET_COMMENTS");
         },

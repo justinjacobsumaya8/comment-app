@@ -31,11 +31,11 @@
             </div>
         </form>
       </div>
-      <!-- <div class="container">
+      <div class="container">
         <ul class="comment-list">
             <CommentReply :key="replied_comment.id" v-for="replied_comment in comment.replies" :comment="replied_comment"></CommentReply>
         </ul>
-      </div> -->
+      </div>
     </div>
   </li>
 </template>
@@ -44,6 +44,8 @@
 
   import CommentReply from "./CommentReply";
 
+  import bus from '../bus'
+  
   export default {
     name: "Comment",
     props: ['comment'],
@@ -53,8 +55,8 @@
         is_replied: false,
         submit: false,
         comment_reply: {
-            content: "",
-            name: "",
+            content: '',
+            name: '',
             parent_id: this.comment.id
         },
       }
@@ -73,12 +75,15 @@
             this.$store
                 .dispatch("ADD_COMMENT", this.comment_reply)
                 .then((response) => {
-                    this.submit = false;
-                    this.is_replied = false;
-                    this.comment_reply.content = '';
-                    this.comment_reply.name = '';
+                    if (response.data === 1)
+                    {
+                        this.submit = false;
+                        this.is_replied = false;
+                        this.comment_reply.content = '';
+                        this.comment_reply.name = '';
 
-                    if (response.data === 1) console.log("success");
+                        bus.$emit('refresh', response.data);
+                    }
                 })
                 .catch((err) => {
                     this.submit = false;

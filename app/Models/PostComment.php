@@ -20,6 +20,6 @@ class PostComment extends Model
 
     public function replies()
     {
-        return $this->hasMany(\App\Models\PostComment::class, 'parent_id');
+        return $this->hasMany(\App\Models\PostComment::class, 'parent_id')->orderBy('created_at', 'DESC');
     }
 }
